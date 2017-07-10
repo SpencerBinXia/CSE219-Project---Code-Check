@@ -12,6 +12,9 @@ import static cc.CodeCheckProp.APP_PATH_WORK;
 import static cc.CodeCheckProp.INVALID_IMAGE_PATH_MESSAGE;
 import static cc.CodeCheckProp.INVALID_IMAGE_PATH_TITLE;
 import cc.data.CodeCheckData;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -31,6 +34,15 @@ public class CodeCheckController {
     public CodeCheckController(CodeCheckApp initApp) {
         // KEEP THIS FOR LATER
         app = initApp;
+    }
+    
+    public void handleAboutButton(){
+        Dialog aboutPopup = new Dialog();
+        aboutPopup.getDialogPane().getButtonTypes().add(new ButtonType("Got it!", ButtonData.CANCEL_CLOSE));
+        aboutPopup.setHeaderText("Code Check organizes Blackboard submissions for your grading convenience!");
+        aboutPopup.setTitle("About Code Check");
+        aboutPopup.setContentText("Code Check application. Developer: Spencer Xia. Copyright Year: 2017.");
+        aboutPopup.show();
     }
     
     // CONTROLLER METHOD THAT HANDLES ADDING A DIRECTORY OF IMAGES

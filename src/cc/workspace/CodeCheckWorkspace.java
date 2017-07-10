@@ -36,6 +36,9 @@ import static cc.style.CodeCheckStyle.CLASS_EDIT_TEXT_FIELD;
 import static cc.style.CodeCheckStyle.CLASS_PROMPT_LABEL;
 import static cc.style.CodeCheckStyle.CLASS_SLIDES_TABLE;
 import static cc.style.CodeCheckStyle.CLASS_UPDATE_BUTTON;
+import static cc.CodeCheckProp.HOME_BUTTON_TEXT;
+import static cc.CodeCheckProp.PREV_BUTTON_TEXT;
+import static cc.CodeCheckProp.NEXT_BUTTON_TEXT;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
@@ -120,9 +123,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         renameButton = app.getGUI().initChildButton(app.getGUI().getFileToolbar(),  "Rename",  "Rename the current Code Check",   false);
         aboutButton = app.getGUI().initChildButton(app.getGUI().getFileToolbar(),  "About",  "About the Code Check Application",   false);       
         controlStepToolbar = new HBox();
-        homeButton = new Button(props.getProperty(ADD_ALL_IMAGES_BUTTON_TEXT));
-        prevButton = new Button(props.getProperty(ADD_IMAGE_BUTTON_TEXT));
-        nextButton = new Button(props.getProperty(REMOVE_IMAGE_BUTTON_TEXT));
+        homeButton = new Button(props.getProperty(HOME_BUTTON_TEXT));
+        prevButton = new Button(props.getProperty(PREV_BUTTON_TEXT));
+        nextButton = new Button(props.getProperty(NEXT_BUTTON_TEXT));
         slidesTableScrollPane = new ScrollPane();
         slidesTableView = new TableView();
         tableColumn = new TableColumn(props.getProperty(FILE_NAME_COLUMN_TEXT));
@@ -184,6 +187,10 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
        /** addAllImagesInDirectoryButton.setOnAction(e->{
             controller.handleAddAllImagesInDirectory();
         });**/
+       
+       aboutButton.setOnAction(e->{
+           controller.handleAboutButton();
+       });
     }
     
     

@@ -11,7 +11,7 @@
         <property name="APP_TITLE"	    value="Welcome to Code Check"></property>
 	<property name="APP_LOGO"	    value="SlideshowCreatorLogo.png"></property>
 	<property name="APP_PATH_CSS"	    value="style/"></property>
-	<property name="APP_CSS"	    value="cc_style.css"></property>
+	<property name="APP_CSS"	    value="sc_style.css"></property>
         <property name="APP_PATH_WORK"      value="work/"></property>
         
         <!-- PROGRAM ICON FILES -->
@@ -51,46 +51,39 @@
         <property name="WORK_LOADED_MESSAGE"		value="The Work has been Loaded"></property>
         <property name="WORK_SAVED_MESSAGE"		value="The Work has been Saved"></property>
         <property name="SAVE_UNSAVED_WORK_MESSAGE"	value="Do you want to save your unsaved work first?"></property>
-	<property name="SAVE_WORK_TITLE"		value="Save your work"></property>
-	<property name="LOAD_WORK_TITLE"		value="Select file to load"></property>
-	<property name="WORK_FILE_EXT"			value="json"></property>
-	<property name="WORK_FILE_EXT_DESC"		value="Slideshow"></property>
+		<property name="SAVE_WORK_TITLE"		value="Save your work"></property>
+		<property name="LOAD_WORK_TITLE"		value="Select file to load"></property>
+		<property name="WORK_FILE_EXT"			value="json"></property>
+		<property name="WORK_FILE_EXT_DESC"		value="Slideshow"></property>
 
-        <!-- WORKSPACE CONTROLS STUFF -->        
-	<property name="SLIDES_HEADER_TEXT"		value="Slideshow Slides"></property>
-	<property name="ADD_ALL_IMAGES_BUTTON_TEXT"	value="+/"></property>
-	<property name="ADD_IMAGE_BUTTON_TEXT"		value="+"></property>
-	<property name="REMOVE_IMAGE_BUTTON_TEXT"	value="-"></property>
-	<property name="HOME_BUTTON_TEXT"	value="Home"></property>
-	<property name="PREV_BUTTON_TEXT"		value="Previous"></property>
-	<property name="NEXT_BUTTON_TEXT"	value="Next"></property>
-	<property name="STEP_1_TEXT"	value="Step 1: Extract Submissions"></property>
-	<property name="STEP_1_DESC_TEXT"	value="Select the submissions below from which to extract student work."></property>
-	<property name="PROGRESS_1_TEXT"	value="Extraction Progress"></property>
-	<property name="REMOVE_BUTTON_TEXT"	value="Remove"></property>    
-	<property name="REFRESH_BUTTON_TEXT"	value="Refresh"></property>
-	<property name="VIEW_BUTTON_TEXT"	value="View"></property>
-	<property name="EXTRACT_BUTTON_TEXT"	value="Extract"></property>
-	<property name="ADD_IMAGE_BUTTON_TEXT"		value="+"></property>
-	<property name="REMOVE_IMAGE_BUTTON_TEXT"	value="-"></property>	
-	<property name="FILE_NAME_COLUMN_TEXT"		value="File Name"></property>
-	<property name="CAPTION_COLUMN_TEXT"		value="Caption"></property>
-	<property name="ORIGINAL_WIDTH_COLUMN_TEXT"	value="Orig. Width"></property>
-	<property name="ORIGINAL_HEIGHT_COLUMN_TEXT"	value="Orig. Height"></property>
-	<property name="CURRENT_WIDTH_COLUMN_TEXT"	value="Current Width"></property>
-	<property name="CURRENT_HEIGHT_COLUMN_TEXT"	value="Current Height"></property>
-	<property name="FILE_NAME_PROMPT_TEXT"		value="Step 1: Extract Submissions"></property>
-	<property name="PATH_PROMPT_TEXT"		value="Select the submissions below from which to extract student work."></property>
-	<property name="CAPTION_PROMPT_TEXT"		value="Remove"></property>
-	<property name="ORIGINAL_WIDTH_PROMPT_TEXT"	value="Refresh"></property>
-	<property name="ORIGINAL_HEIGHT_PROMPT_TEXT"	value="View"></property>
-	<property name="CURRENT_WIDTH_PROMPT_TEXT"	value="Current Width:"></property>
-	<property name="CURRENT_HEIGHT_PROMPT_TEXT"	value="Extract"></property>
-	<property name="UPDATE_BUTTON_TEXT"		value="Update"></property>
-        
-        <!-- WORKSPACE ERROR MESSAGES -->
-        <property name="INVALID_IMAGE_PATH_TITLE"       value="Invalid Image Path"></property>
-        <property name="INVALID_IMAGE_PATH_MESSAGE"     value="Image not found"></property>
+		<!-- WORKSPACE CONTROLS STUFF -->        
+		<property name="HOME_BUTTON_TEXT"	value="Home"></property>
+		<property name="PREV_BUTTON_TEXT"		value="Previous"></property>
+		<property name="NEXT_BUTTON_TEXT"	value="Next"></property>
+		<property name="STEP_1_TEXT"	value="Next"></property>
+		<property name="STEP_2_TEXT"	value="Next"></property>
+		<property name="STEP_3_TEXT"	value="Next"></property>
+		<property name="STEP_4_TEXT"	value="Next"></property>
+		<property name="STEP_5_TEXT"	value="Next"></property>
+		<property name="STEP_1_DESC_TEXT"	value="Next"></property>
+		<property name="STEP_2_DESC_TEXT"	value="Next"></property>
+		<property name="STEP_3_DESC_TEXT"	value="Next"></property>
+		<property name="STEP_4_DESC_TEXT"	value="Next"></property>
+		<property name="STEP_5_DESC_TEXT"	value="Next"></property>
+		<property name="FILE_NAME_COLUMN_TEXT"		value="File Name"></property>
+		<property name="PROGRESS_TEXT"	value="Next"></property>
+		<property name="REMOVE_BUTTON_TEXT"	value="Next"></property>    
+		<property name="REFRESH_BUTTON_TEXT"	value="Next"></property>
+		<property name="VIEW_BUTTON_TEXT"	value="Next"></property>
+		<property name="EXTRACT_BUTTON_TEXT"	value="Next"></property>
+		<property name="RENAME_BUTTON_TEXT"	value="Next"></property>
+		<property name="UNZIP_BUTTON_TEXT"	value="Next"></property>
+		<property name="EXTRACT_CODE_BUTTON_TEXT"	value="Next"></property>
+		<property name="RESULTS_BUTTON_TEXT"	value="Next"></property>
+	
+		<!-- WORKSPACE ERROR MESSAGES -->
+		<property name="INVALID_IMAGE_PATH_TITLE"       value="Invalid Image Path"></property>
+		<property name="INVALID_IMAGE_PATH_MESSAGE"     value="Image not found"></property>
     </property_list>
     <property_options_list>
     </property_options_list>
