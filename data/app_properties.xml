@@ -66,6 +66,8 @@
 	<property name="NEXT_BUTTON_TEXT"	value="Next"></property>
 	<property name="STEP_1_TEXT"	value="Step 1: Extract Submissions"></property>
 	<property name="STEP_1_DESC_TEXT"	value="Select the submissions below from which to extract student work."></property>
+	<property name="STEP_2_TEXT"	value="Step 2: Rename Student Submissions"></property>
+	<property name="STEP_2_DESC_TEXT"	value="Click the Rename button to rename all submissions"></property>
 	<property name="PROGRESS_1_TEXT"	value="Extraction Progress"></property>
 	<property name="REMOVE_BUTTON_TEXT"	value="Remove"></property>    
 	<property name="REFRESH_BUTTON_TEXT"	value="Refresh"></property>
@@ -84,7 +86,7 @@
 	<property name="CAPTION_PROMPT_TEXT"		value="Remove"></property>
 	<property name="ORIGINAL_WIDTH_PROMPT_TEXT"	value="Refresh"></property>
 	<property name="ORIGINAL_HEIGHT_PROMPT_TEXT"	value="View"></property>
-	<property name="CURRENT_WIDTH_PROMPT_TEXT"	value="Current Width:"></property>
+	<property name="CURRENT_WIDTH_PROMPT_TEXT"	value="Extraction Progress:"></property>
 	<property name="CURRENT_HEIGHT_PROMPT_TEXT"	value="Extract"></property>
 	<property name="UPDATE_BUTTON_TEXT"		value="Update"></property>
         

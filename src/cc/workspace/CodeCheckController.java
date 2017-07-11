@@ -27,13 +27,58 @@ import javafx.scene.control.Dialog;
 public class CodeCheckController {
     // THE APP PROVIDES ACCESS TO OTHER COMPONENTS AS NEEDED
     CodeCheckApp app;
-
+    
+    //Tracks the current step that the application is on.
+    
     /**
      * Constructor, note that the app must already be constructed.
      */
     public CodeCheckController(CodeCheckApp initApp) {
         // KEEP THIS FOR LATER
         app = initApp;
+    }
+    
+    public int handleHome(int step){
+       CodeCheckWorkspace gui = (CodeCheckWorkspace)app.getWorkspaceComponent();
+       step = 1;
+       gui.setStep1();
+       return step;
+    }
+
+    public int handlePrev(int step){
+        CodeCheckWorkspace gui = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        step--;
+        if (step == 1){
+            gui.setStep1();
+        }
+        else if (step == 2){
+            gui.setStep2();            
+        }
+        else if (step == 3){
+            gui.setStep3();
+        }
+        else if (step == 4){
+            gui.setStep4();
+        }
+        return step;
+    }
+    
+    public int handleNext(int step){
+        CodeCheckWorkspace gui = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        step++;
+        if (step == 2){
+            gui.setStep2();
+        }
+        else if (step == 3){
+            gui.setStep3();
+        }
+        else if (step == 4){
+            gui.setStep4();
+        }
+        else if (step == 5){
+            gui.setStep5();
+        }
+        return step;
     }
     
     public void handleAboutButton(){
