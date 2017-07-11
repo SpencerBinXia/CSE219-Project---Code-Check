@@ -69,13 +69,15 @@
 	<property name="STEP_2_TEXT"	value="Step 2: Rename Student Submissions"></property>
 	<property name="STEP_2_DESC_TEXT"	value="Click the Rename button to rename all submissions"></property>
 	<property name="PROGRESS_1_TEXT"	value="Extraction Progress"></property>
+	<property name="PROGRESS_2_TEXT"	value="Rename Progress"></property>
 	<property name="REMOVE_BUTTON_TEXT"	value="Remove"></property>    
 	<property name="REFRESH_BUTTON_TEXT"	value="Refresh"></property>
 	<property name="VIEW_BUTTON_TEXT"	value="View"></property>
 	<property name="EXTRACT_BUTTON_TEXT"	value="Extract"></property>
+	<property name="RENAME_FILES_BUTTON_TEXT"	value="Rename"></property>
 	<property name="ADD_IMAGE_BUTTON_TEXT"		value="+"></property>
 	<property name="REMOVE_IMAGE_BUTTON_TEXT"	value="-"></property>	
-	<property name="FILE_NAME_COLUMN_TEXT"		value="File Name"></property>
+	<property name="FILE_NAME_COLUMN_TEXT"		value="Blackboard Submissions"></property>
 	<property name="CAPTION_COLUMN_TEXT"		value="Caption"></property>
 	<property name="ORIGINAL_WIDTH_COLUMN_TEXT"	value="Orig. Width"></property>
 	<property name="ORIGINAL_HEIGHT_COLUMN_TEXT"	value="Orig. Height"></property>
@@ -88,7 +90,7 @@
 	<property name="ORIGINAL_HEIGHT_PROMPT_TEXT"	value="View"></property>
 	<property name="CURRENT_WIDTH_PROMPT_TEXT"	value="Extraction Progress:"></property>
 	<property name="CURRENT_HEIGHT_PROMPT_TEXT"	value="Extract"></property>
-	<property name="UPDATE_BUTTON_TEXT"		value="Update"></property>
+	<property name="UPDATE_BUTTON_TEXT"		value="View Results"></property>
         
         <!-- WORKSPACE ERROR MESSAGES -->
         <property name="INVALID_IMAGE_PATH_TITLE"       value="Invalid Image Path"></property>

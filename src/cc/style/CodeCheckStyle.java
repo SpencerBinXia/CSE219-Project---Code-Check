@@ -15,4 +15,5 @@ public class CodeCheckStyle {
     public static String CLASS_EDIT_SLIDER = "edit_slider";
     public static String CLASS_EDIT_BUTTON = "edit_button";
     public static String CLASS_UPDATE_BUTTON = "update_button";
+    public static String CLASS_DESC_LABEL = "desc_label";
 }

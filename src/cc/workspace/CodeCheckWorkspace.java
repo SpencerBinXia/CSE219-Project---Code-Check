@@ -38,8 +38,11 @@ import static cc.CodeCheckProp.NEXT_BUTTON_TEXT;
 import static cc.CodeCheckProp.STEP_2_TEXT;
 import static cc.CodeCheckProp.STEP_2_DESC_TEXT;
 import static cc.style.CodeCheckStyle.CLASS_EDIT_TEXT_FIELD;
+import static cc.style.CodeCheckStyle.CLASS_DESC_LABEL;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 
 /**
  * This class serves as the workspace component for the TA Manager
@@ -69,7 +72,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     Button nextButton;
     
     // FOR THE SLIDES TABLE
-    GridPane filePane;
+    FlowPane filePane;
     Label stepLabel;
     Label stepDescLabel;
     Button removeButton;
@@ -80,7 +83,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     TableColumn<Slide, StringProperty> tableColumn;
 
     // THE EDIT PANE
-    GridPane outputPane;
+    FlowPane outputPane;
     Label progressLabel;
     ProgressBar progress;
     ScrollPane outputBoxPane;   
@@ -131,8 +134,8 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         slidesTableScrollPane = new ScrollPane();
         slidesTableView = new TableView();
         tableColumn = new TableColumn(props.getProperty(FILE_NAME_COLUMN_TEXT));
-        outputPane = new GridPane();
-        filePane = new GridPane();
+        outputPane = new FlowPane();
+        filePane = new FlowPane();
         stepLabel = new Label(props.getProperty(FILE_NAME_PROMPT_TEXT));
         stepDescLabel = new Label(props.getProperty(PATH_PROMPT_TEXT));
         removeButton = new Button(props.getProperty(CAPTION_PROMPT_TEXT));
@@ -164,24 +167,48 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         controlStepToolbar.getChildren().add(homeButton);
         controlStepToolbar.getChildren().add(prevButton);
         controlStepToolbar.getChildren().add(nextButton);
+        controlStepToolbar.setAlignment(Pos.CENTER_RIGHT);
         slidesTableScrollPane.setContent(slidesTableView);
+        filePane.setMinWidth(704);
+        filePane.setMaxWidth(704);
+        filePane.setHgap(60);
+        outputPane.setMinWidth(576);
+        outputPane.setMaxWidth(576);
+        slidesTableScrollPane.setMinHeight(300);
+        slidesTableScrollPane.setMaxHeight(300);
+        slidesTableScrollPane.setMinWidth(670);
+        slidesTableScrollPane.setMaxWidth(670);
+        GridPane checkmarks = new GridPane();
+        HBox otherRow = new HBox();
+        otherRow.getChildren().addAll(other, otherField);
+        checkmarks.setHgap(150);
+        checkmarks.add(java, 0, 0);
+        checkmarks.add(js, 0, 1);
+        checkmarks.add(cpp, 1, 0);
+        checkmarks.add(cs, 1, 1);
+        checkmarks.add(otherRow,0, 2);
+        filePane.getChildren().addAll(stepLabel, stepDescLabel, slidesTableScrollPane, removeButton, refreshButton, viewButton, checkmarks);
+        /**
         filePane.add(stepLabel, 0, 0);
         filePane.add(stepDescLabel, 0, 1);
         filePane.add(slidesTableScrollPane, 0, 2);
-        filePane.add(removeButton, 0, 4);
-        filePane.add(refreshButton, 1, 4);
-        filePane.add(viewButton, 2, 4);
-        filePane.add(java, 0, 5);
-        filePane.add(js, 1, 5);
-        filePane.add(cpp, 0, 6);
-        filePane.add(cs, 1, 6);
-        filePane.add(other, 0, 7);
-        filePane.add(otherField, 1, 7);
-        outputPane.add(progressLabel, 0, 0);
-        outputPane.add(progress, 1, 0);
-        outputPane.add(actionButton1, 0, 1);
-        outputPane.add(actionButton2, 1, 1);
-        outputPane.add(outputBoxPane, 0, 3);
+        filePane.add(removeButton, 0, 3);
+        filePane.add(refreshButton, 1, 3);
+        filePane.add(viewButton, 2, 3);
+        filePane.add(java, 0, 4);
+        filePane.add(js, 1, 4);
+        filePane.add(cpp, 0, 5);
+        filePane.add(cs, 1, 5);
+        filePane.add(other, 0, 6);
+        filePane.add(otherField, 1, 6);
+        * **/
+        outputBoxPane.setMinWidth(530);
+        outputBoxPane.setMaxWidth(530);
+        outputBoxPane.setMinHeight(350);
+        outputBoxPane.setMaxHeight(350);
+        
+        outputPane.setHgap(100);
+        outputPane.getChildren().addAll(progressLabel, progress, actionButton1, actionButton2, outputBoxPane);
         
         // DISABLE THE DISPLAY TEXT FIELDS
         java.setVisible(false);
@@ -195,6 +222,8 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         prevButton.setDisable(true);
         
         // AND THEN PUT EVERYTHING INSIDE THE WORKSPACE
+        controlStepToolbar.setMinWidth(450);
+        controlStepToolbar.setMaxWidth(450);
         app.getGUI().getTopToolbarPane().getChildren().add(controlStepToolbar);
         BorderPane workspaceBorderPane = new BorderPane();
         workspaceBorderPane.setLeft(filePane);
@@ -214,6 +243,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         stepDescLabel.setText(props.getProperty(PATH_PROMPT_TEXT));
         progressLabel.setText(props.getProperty(CURRENT_WIDTH_PROMPT_TEXT));
         actionButton1.setText(props.getProperty(CURRENT_HEIGHT_PROMPT_TEXT));
+        tableColumn.setText(props.getProperty(FILE_NAME_COLUMN_TEXT));
         homeButton.setDisable(true);
         prevButton.setDisable(true);
         nextButton.setDisable(false);
@@ -230,6 +260,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         stepLabel.setText(props.getProperty(STEP_2_TEXT));
         stepDescLabel.setText(props.getProperty(STEP_2_DESC_TEXT));
+        tableColumn.setText("Student Submissions");
         progressLabel.setText("Rename Progress");
         actionButton1.setText("Rename");
         homeButton.setDisable(false);
@@ -241,6 +272,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         stepLabel.setText("Step 3: Unzip Student Submissions");
         stepDescLabel.setText("Select student submissions and click Unzip.");
         progressLabel.setText("Unzip Progress");
+        tableColumn.setText("Student ZIP FIles");
         actionButton1.setText("Unzip");
         java.setVisible(false);
         js.setVisible(false);
@@ -253,9 +285,11 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     
     public void setStep4(){
         stepLabel.setText("Step 4: Extract Source Code");
-        stepDescLabel.setText("Select students and click Extract Code");
+        stepDescLabel.setText("Select students and click Extract Code.");
         progressLabel.setText("Code Progress");
         actionButton1.setText("Extract Code");
+        actionButton2.setText("");
+        tableColumn.setText("Student Work Directories");
         nextButton.setDisable(false);
         java.setVisible(true);
         js.setVisible(true);
@@ -268,9 +302,11 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     
     public void setStep5(){
         stepLabel.setText("Step 5: Code Check");
-        stepDescLabel.setText("Select students and click Code Check");
+        stepDescLabel.setText("Select students and click Code Check.");
         progressLabel.setText("Check Progress");
         actionButton1.setText("Code Check");
+        actionButton2.setText("View Results");
+        tableColumn.setText("Student Work");
         nextButton.setDisable(true);
         java.setVisible(false);
         js.setVisible(false);
@@ -319,6 +355,8 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     public void initStyle1() {
 
         controlStepToolbar.getStyleClass().add(CLASS_BORDERED_PANE);
+        renameButton.getStyleClass().add(CLASS_EDIT_BUTTON);
+        aboutButton.getStyleClass().add(CLASS_EDIT_BUTTON);
         homeButton.getStyleClass().add(CLASS_EDIT_BUTTON);
         prevButton.getStyleClass().add(CLASS_EDIT_BUTTON);
         nextButton.getStyleClass().add(CLASS_EDIT_BUTTON);
@@ -331,8 +369,8 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         filePane.getStyleClass().add(CLASS_NORMAL_PANE);
         outputPane.getStyleClass().add(CLASS_NORMAL_PANE);
         stepLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
-        stepDescLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
-        progressLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
+        stepDescLabel.getStyleClass().add(CLASS_DESC_LABEL);
+        progressLabel.getStyleClass().add(CLASS_DESC_LABEL);
         outputBoxPane.getStyleClass().add(CLASS_SLIDES_TABLE);
         removeButton.getStyleClass().add(CLASS_UPDATE_BUTTON);
         refreshButton.getStyleClass().add(CLASS_UPDATE_BUTTON);

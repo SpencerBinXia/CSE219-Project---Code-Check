@@ -55,8 +55,8 @@
     -fx-spacing: 10;
 }
 
-.edit_text_field {
-    -fx-font-size:20pt;
+.desc_label {
+    -fx-font-size:16pt;
     -fx-padding: 15;
     -fx-spacing: 10;
 }
@@ -66,16 +66,16 @@
 }
 
 .edit_button {
-    -fx-font-size: 14pt;
-    -fx-font-weight: bold;
-    -fx-border-radius: 15 15 15 15;
+    -fx-font-size: 15pt;
+    -fx-border-radius: 5 0 5 0;
+    -fx-padding: 3 30 3 30;
     -fx-background-radius: 20 20 20 20;
 }
 
 .update_button {
-    -fx-font-size: 24pt;
-    -fx-font-weight: bold;
-    -fx-border-radius: 15 15 15 15;
+    -fx-font-size: 17pt;
+    -fx-border-radius: 5 5 5 5;
+    -fx-padding: 3 50 3 50;
     -fx-background-radius: 20 20 20 20;
 }
 
