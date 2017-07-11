@@ -31,6 +31,7 @@ import static cc.style.CodeCheckStyle.CLASS_EDIT_BUTTON;
 import static cc.style.CodeCheckStyle.CLASS_PROMPT_LABEL;
 import static cc.style.CodeCheckStyle.CLASS_SLIDES_TABLE;
 import static cc.style.CodeCheckStyle.CLASS_UPDATE_BUTTON;
+import static cc.style.CodeCheckStyle.CLASS_NORMAL_PANE;
 import static cc.CodeCheckProp.HOME_BUTTON_TEXT;
 import static cc.CodeCheckProp.PREV_BUTTON_TEXT;
 import static cc.CodeCheckProp.NEXT_BUTTON_TEXT;
@@ -327,8 +328,8 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         for (TableColumn tc : slidesTableView.getColumns())
             tc.getStyleClass().add(CLASS_SLIDES_TABLE);
         
-        filePane.getStyleClass().add(CLASS_BORDERED_PANE);
-        outputPane.getStyleClass().add(CLASS_BORDERED_PANE);
+        filePane.getStyleClass().add(CLASS_NORMAL_PANE);
+        outputPane.getStyleClass().add(CLASS_NORMAL_PANE);
         stepLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         stepDescLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         progressLabel.getStyleClass().add(CLASS_PROMPT_LABEL);

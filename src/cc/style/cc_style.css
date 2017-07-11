@@ -33,12 +33,19 @@
 }
 
 .bordered_pane {
-    -fx-background-color: #aaffaa;
+    -fx-background-color: #FFF6FB;
     -fx-background-radius: 5.0;
     -fx-padding: 15;
     -fx-spacing: 10;
     -fx-border-width: 1px;
-    -fx-border-color: #77dd77;
+    -fx-border-color: #ADADAD;
+}
+
+.normal_pane {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5.0;
+    -fx-padding: 15;
+    -fx-spacing: 10;
 }
 
 .prompt_label {
@@ -55,7 +62,7 @@
 }
 
 .edit_slider {
-    -fx-background-color: #123456;
+    -fx-background-color: #ADADAD;
 }
 
 .edit_button {
@@ -74,4 +81,8 @@
 
 .slides_table {
     -fx-font-size:16pt;
+}
+
+.recent_button {
+    
 }
