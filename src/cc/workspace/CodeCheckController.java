@@ -15,6 +15,7 @@ import cc.data.CodeCheckData;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -79,6 +80,10 @@ public class CodeCheckController {
             gui.setStep5();
         }
         return step;
+    }
+    
+    public void handleRenameButton(){
+        app.getGUI().setTitle();
     }
     
     public void handleAboutButton(){

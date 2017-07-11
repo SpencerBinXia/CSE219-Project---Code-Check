@@ -288,6 +288,10 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
             controller.handleAddAllImagesInDirectory();
         });**/
        
+       renameButton.setOnAction(e->{
+           controller.handleRenameButton();
+       });
+       
        aboutButton.setOnAction(e->{
            controller.handleAboutButton();
        });
