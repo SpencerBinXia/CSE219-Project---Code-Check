@@ -344,7 +344,6 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
        nextButton.setOnAction(e->{
            currentStep = controller.handleNext(currentStep);
        });
-       
 
     }
     
@@ -383,7 +382,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
 
     @Override
     public void resetWorkspace() {
-
+        setStep1();
     }
     
     @Override
