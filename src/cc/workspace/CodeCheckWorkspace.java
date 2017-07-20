@@ -382,6 +382,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
 
     @Override
     public void resetWorkspace() {
+        currentStep = 1;
         setStep1();
     }
     
