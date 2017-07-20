@@ -382,6 +382,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
             if (currentStep == 2){
                 controller.handleRenameSubmissions(currentStep);
             }
+            if (currentStep == 3){
+                controller.handleExtractSubmissions();
+            }
         });
         });        
     }

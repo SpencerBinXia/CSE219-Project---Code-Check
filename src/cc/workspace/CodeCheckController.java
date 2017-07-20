@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Enumeration;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -203,6 +204,52 @@ public class CodeCheckController {
         f.renameTo(newf);
         }
         handleRefreshButton(step);
+    }
+    
+    public void handleExtractSubmissions(){
+        CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
+        int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();
+        
+        if (selectedIndex >= 0){
+        try
+        {
+        File f = selectedFile.getFile();
+        int periodIndex = f.getName().indexOf('.');
+        String dirName = f.getName().substring(0, periodIndex);
+        File studentDir = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName);
+        studentDir.mkdir();
+        ZipFile zipFile = new ZipFile("work/" + app.getGUI().getTitle() + "/Submissions/" + f.getName());
+        Enumeration<?> enu = zipFile.entries();
+        byte[] buffer = new byte[2048];
+        while (enu.hasMoreElements()){
+            ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+            String filename = zipEntry.getName();
+            File newFile = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName + "/" + filename);
+            if (filename.endsWith("/")){
+                newFile.mkdirs();
+                continue;
+            }
+            File parent = newFile.getParentFile();
+           if (parent != null) {
+                parent.mkdirs();
+            }
+            InputStream is = zipFile.getInputStream(zipEntry);
+            FileOutputStream fos = new FileOutputStream(newFile);
+            int len;
+            while ((len = is.read(buffer)) >= 0){
+                fos.write(buffer, 0, len);
+            }
+            is.close();
+            fos.close();
+        }
+        zipFile.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        }        
     }
     
     /**
