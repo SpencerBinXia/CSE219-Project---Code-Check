@@ -70,7 +70,8 @@ public class CodeCheckData implements AppDataComponent {
         }
         }
         
-        File subDir = new File(props.getProperty(APP_PATH_SUB));
+        if (app.getGUI().getTitle() != null){
+        File subDir = new File("work/" + app.getGUI().getTitle() + "/Submissions/");
         File[] listOfSub = subDir.listFiles();     
         
         for (int i = 0; i < listOfSub.length; i++) {
@@ -78,7 +79,8 @@ public class CodeCheckData implements AppDataComponent {
             FileWrapper newFile = new FileWrapper(listOfSub[i], listOfSub[i].getName(), listOfSub[i].getPath());
             submissions.add(newFile);
         }
-        }       
+        }
+        }
     }
 
     // FOR ADDING A SLIDE WHEN THERE ISN'T A CUSTOM SIZE

@@ -269,6 +269,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     public void setStep2(){
         CodeCheckData data = (CodeCheckData)app.getDataComponent();
         ObservableList<FileWrapper> model = data.getSubmissions();
+        data.resetData();
         slidesTableView.getItems().clear();      
         slidesTableView.getItems().addAll(model);
         slidesTableView.getColumns().get(0).setVisible(false);
@@ -287,6 +288,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     public void setStep3(){
         CodeCheckData data = (CodeCheckData)app.getDataComponent();  
         ObservableList<FileWrapper> model = data.getSubmissions();
+        data.resetData();
         slidesTableView.getItems().clear();      
         slidesTableView.getItems().addAll(model);
         slidesTableView.getColumns().get(0).setVisible(false);
@@ -375,8 +377,10 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
             });
             actionButton1.setOnAction(e->{
             if (currentStep == 1){
-                System.out.println("POP");
                 controller.handleExtractBlackboard();
+            }
+            if (currentStep == 2){
+                controller.handleRenameSubmissions(currentStep);
             }
         });
         });        

@@ -188,6 +188,23 @@ public class CodeCheckController {
         }
     }
     
+    public void handleRenameSubmissions(int step){
+        CodeCheckData data = (CodeCheckData)app.getDataComponent();   
+        for (int i = 0;i < data.getSubmissions().size();i++){
+        File f = data.getSubmissions().get(i).getFile();
+        String name = f.getName();
+        int underscoreIndex = name.indexOf('_');
+        String subName = name.substring(underscoreIndex+1);
+        underscoreIndex = subName.indexOf('_');
+        int periodIndex = subName.indexOf('.');
+        String deleteString = subName.substring(underscoreIndex, periodIndex);
+        String realname = subName.replace(deleteString, "");
+        File newf = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + realname);
+        f.renameTo(newf);
+        }
+        handleRefreshButton(step);
+    }
+    
     /**
     // CONTROLLER METHOD THAT HANDLES ADDING A DIRECTORY OF IMAGES
     public void handleAddAllImagesInDirectory() {
