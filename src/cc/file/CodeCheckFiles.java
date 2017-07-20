@@ -22,7 +22,7 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import cc.CodeCheckApp;
 import cc.data.CodeCheckData;
-import cc.data.Slide;
+import cc.data.FileWrapper;
 
 /**
  * This class serves as the file component for the Slideshow Creator App.
@@ -51,6 +51,7 @@ public class CodeCheckFiles implements AppFileComponent {
 
     @Override
     public void loadData(AppDataComponent data, String filePath) throws IOException {
+        /**
 	// LOAD THE JSON FILE WITH ALL THE DATA
 	JsonObject json = loadJSONFile(filePath);
 
@@ -69,8 +70,9 @@ public class CodeCheckFiles implements AppFileComponent {
             int originalHeight = jsonSlide.getInt(JSON_ORIGINAL_HEIGHT);
             int currentWidth = jsonSlide.getInt(JSON_CURRENT_WIDTH);
             int currentHeight = jsonSlide.getInt(JSON_CURRENT_HEIGHT);
-            dataManager.addSlide(fileName, path, caption, originalWidth, originalHeight, currentWidth, currentHeight);
+            //dataManager.addSlide(fileName, path, caption, originalWidth, originalHeight, currentWidth, currentHeight);
         }
+        * **/
     }
       
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
@@ -88,9 +90,10 @@ public class CodeCheckFiles implements AppFileComponent {
 	// GET THE DATA
 	CodeCheckData dataManager = (CodeCheckData)data;
 
+        /**
 	// NOW BUILD THE SLIDES JSON OBJECTS TO SAVE
 	JsonArrayBuilder slidesArrayBuilder = Json.createArrayBuilder();
-	ObservableList<Slide> slides = dataManager.getSlides();
+	ObservableList<Slide> slides = dataManager.getblack();
 	for (Slide slide : slides) {	    
 	    JsonObject slideJson = Json.createObjectBuilder()
 		    .add(JSON_FILE_NAME, slide.getFileName())
@@ -126,6 +129,7 @@ public class CodeCheckFiles implements AppFileComponent {
 	PrintWriter pw = new PrintWriter(filePath);
 	pw.write(prettyPrinted);
 	pw.close();
+        * **/
     }
     
     // IMPORTING/EXPORTING DATA IS USED WHEN WE READ/WRITE DATA IN AN

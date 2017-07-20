@@ -44,6 +44,7 @@ public enum CodeCheckProp {
     
     // FOR OTHER INTERACTIONS
     APP_PATH_WORK,
+    APP_PATH_SUB,
     INVALID_IMAGE_PATH_TITLE,
     INVALID_IMAGE_PATH_MESSAGE
 }

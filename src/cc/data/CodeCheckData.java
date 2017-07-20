@@ -3,7 +3,12 @@ package cc.data;
 import javafx.collections.ObservableList;
 import djf.components.AppDataComponent;
 import javafx.collections.FXCollections;
+import cc.data.FileWrapper;
+import static cc.CodeCheckProp.APP_PATH_WORK;
+import static cc.CodeCheckProp.APP_PATH_SUB;
 import cc.CodeCheckApp;
+import java.io.File;
+import properties_manager.PropertiesManager;
 
 /**
  * This is the data component for CodeCheckApp. It has all the data needed
@@ -19,7 +24,10 @@ public class CodeCheckData implements AppDataComponent {
 
     // NOTE THAT THIS DATA STRUCTURE WILL DIRECTLY STORE THE
     // DATA IN THE ROWS OF THE TABLE VIEW
-    ObservableList<Slide> slides;
+    ObservableList<FileWrapper> blackboard;
+    ObservableList<FileWrapper> submissions;
+    FileWrapper[] rawBlack;
+    FileWrapper[] rawSub;
 
     /**
      * This constructor will setup the required data structures for use.
@@ -31,24 +39,50 @@ public class CodeCheckData implements AppDataComponent {
         app = initApp;
         
         // MAKE THE SLIDES MODEL
-        slides = FXCollections.observableArrayList();
+        blackboard = FXCollections.observableArrayList();
+        submissions = FXCollections.observableArrayList();
     }
     
     // ACCESSOR METHOD
-    public ObservableList<Slide> getSlides() {
-        return slides;
+    public ObservableList<FileWrapper> getBlackboard() {
+        return blackboard;
     }
     
+    public ObservableList<FileWrapper> getSubmissions() {
+        return submissions;
+    }
     /**
      * Called each time new work is created or loaded, it resets all data
      * and data structures such that they can be used for new values.
      */
     @Override
     public void resetData() {
-
+        blackboard.clear();
+        submissions.clear();
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        File blackDir = new File(props.getProperty(APP_PATH_WORK));
+        File[] listOfBlack = blackDir.listFiles();
+        
+        for (int i = 0; i < listOfBlack.length; i++) {
+        if (listOfBlack[i].isFile()) {
+            FileWrapper newFile = new FileWrapper(listOfBlack[i], listOfBlack[i].getName(), listOfBlack[i].getPath());
+            blackboard.add(newFile);
+        }
+        }
+        
+        File subDir = new File(props.getProperty(APP_PATH_SUB));
+        File[] listOfSub = subDir.listFiles();     
+        
+        for (int i = 0; i < listOfSub.length; i++) {
+        if (listOfSub[i].isFile()) {
+            FileWrapper newFile = new FileWrapper(listOfSub[i], listOfSub[i].getName(), listOfSub[i].getPath());
+            submissions.add(newFile);
+        }
+        }       
     }
 
     // FOR ADDING A SLIDE WHEN THERE ISN'T A CUSTOM SIZE
+    /**
     public void addSlide(String fileName, String path, String caption, int originalWidth, int originalHeight) {
         Slide slideToAdd = new Slide(fileName, path, caption, originalWidth, originalHeight);
         slides.add(slideToAdd);
@@ -61,4 +95,5 @@ public class CodeCheckData implements AppDataComponent {
         slideToAdd.setCurrentHeight(currentHeight);
         slides.add(slideToAdd);
     }
+    * **/
 }

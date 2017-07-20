@@ -12,7 +12,8 @@
 	<property name="APP_LOGO"	    value="SlideshowCreatorLogo.png"></property>
 	<property name="APP_PATH_CSS"	    value="style/"></property>
 	<property name="APP_CSS"	    value="cc_style.css"></property>
-        <property name="APP_PATH_WORK"      value="work/"></property>
+        <property name="APP_PATH_WORK"      value="assignment/blackboard/"></property>
+		<property name="APP_PATH_SUB"		value="assignment/submissions/"></property>
         
         <!-- PROGRAM ICON FILES -->
         <property name="NEW_ICON"	    value="New.png"></property>

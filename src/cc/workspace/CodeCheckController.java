@@ -9,6 +9,7 @@ import javafx.stage.DirectoryChooser;
 import properties_manager.PropertiesManager;
 import cc.CodeCheckApp;
 import static cc.CodeCheckProp.APP_PATH_WORK;
+import static cc.CodeCheckProp.APP_PATH_SUB;
 import static cc.CodeCheckProp.INVALID_IMAGE_PATH_MESSAGE;
 import static cc.CodeCheckProp.INVALID_IMAGE_PATH_TITLE;
 import cc.data.CodeCheckData;
@@ -83,7 +84,7 @@ public class CodeCheckController {
     }
     
     public void handleRenameButton(){
-        app.getGUI().setTitle();
+        app.getGUI().renameTitle();
     }
     
     public void handleAboutButton(){
@@ -95,6 +96,18 @@ public class CodeCheckController {
         aboutPopup.show();
     }
     
+    public void handleRefreshButton(int step){
+        CodeCheckData data = (CodeCheckData)app.getDataComponent();      
+        data.resetData();
+        if (step == 1){
+            handleHome(1);
+        }
+        else{
+            handlePrev(step+1);
+        }
+    }
+    
+    /**
     // CONTROLLER METHOD THAT HANDLES ADDING A DIRECTORY OF IMAGES
     public void handleAddAllImagesInDirectory() {
         try {
@@ -137,4 +150,5 @@ public class CodeCheckController {
 	Image image = new Image(fileURL.toExternalForm());
 	return image;
     }
+    * **/
 }

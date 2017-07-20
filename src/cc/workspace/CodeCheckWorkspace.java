@@ -25,7 +25,7 @@ import static cc.CodeCheckProp.ORIGINAL_HEIGHT_PROMPT_TEXT;
 import static cc.CodeCheckProp.ORIGINAL_WIDTH_PROMPT_TEXT;
 import static cc.CodeCheckProp.PATH_PROMPT_TEXT;
 import static cc.CodeCheckProp.UPDATE_BUTTON_TEXT;
-import cc.data.Slide;
+import cc.data.FileWrapper;
 import cc.data.CodeCheckData;
 import static cc.style.CodeCheckStyle.CLASS_EDIT_BUTTON;
 import static cc.style.CodeCheckStyle.CLASS_PROMPT_LABEL;
@@ -39,9 +39,11 @@ import static cc.CodeCheckProp.STEP_2_TEXT;
 import static cc.CodeCheckProp.STEP_2_DESC_TEXT;
 import static cc.style.CodeCheckStyle.CLASS_EDIT_TEXT_FIELD;
 import static cc.style.CodeCheckStyle.CLASS_DESC_LABEL;
+import java.io.File;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
 
 /**
@@ -79,8 +81,8 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     Button refreshButton;
     Button viewButton;
     ScrollPane slidesTableScrollPane;
-    TableView<Slide> slidesTableView;
-    TableColumn<Slide, StringProperty> tableColumn;
+    TableView<FileWrapper> slidesTableView;
+    TableColumn<FileWrapper, StringProperty> tableColumn;
 
     // THE EDIT PANE
     FlowPane outputPane;
@@ -159,9 +161,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         slidesTableView.getColumns().add(tableColumn);
         tableColumn.prefWidthProperty().bind(slidesTableView.widthProperty().divide(1));
         // HOOK UP THE TABLE TO THE DATA
-        CodeCheckData data = (CodeCheckData)app.getDataComponent();
-        ObservableList<Slide> model = data.getSlides();
-        slidesTableView.setItems(model);
+        tableColumn.setCellValueFactory(
+        new PropertyValueFactory<FileWrapper,StringProperty>("fileName")
+        );
         
         // THEM ORGANIZE THEM
         controlStepToolbar.getChildren().add(homeButton);
@@ -235,9 +237,17 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         
         // AND SET THIS AS THE WORKSPACE PANE
         workspace = workspaceBorderPane;
+        
+        //INITIALIZE TABLE
     }
 
     public void setStep1(){
+        CodeCheckData data = (CodeCheckData)app.getDataComponent();   
+        ObservableList<FileWrapper> model = data.getBlackboard();
+        slidesTableView.getItems().clear();   
+        slidesTableView.getItems().addAll(model);
+        slidesTableView.getColumns().get(0).setVisible(false);
+        slidesTableView.getColumns().get(0).setVisible(true);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         stepLabel.setText(props.getProperty(FILE_NAME_PROMPT_TEXT));
         stepDescLabel.setText(props.getProperty(PATH_PROMPT_TEXT));
@@ -257,6 +267,12 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     }
     
     public void setStep2(){
+        CodeCheckData data = (CodeCheckData)app.getDataComponent();
+        ObservableList<FileWrapper> model = data.getSubmissions();
+        slidesTableView.getItems().clear();      
+        slidesTableView.getItems().addAll(model);
+        slidesTableView.getColumns().get(0).setVisible(false);
+        slidesTableView.getColumns().get(0).setVisible(true);
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         stepLabel.setText(props.getProperty(STEP_2_TEXT));
         stepDescLabel.setText(props.getProperty(STEP_2_DESC_TEXT));
@@ -269,6 +285,12 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     }
     
     public void setStep3(){
+        CodeCheckData data = (CodeCheckData)app.getDataComponent();  
+        ObservableList<FileWrapper> model = data.getSubmissions();
+        slidesTableView.getItems().clear();      
+        slidesTableView.getItems().addAll(model);
+        slidesTableView.getColumns().get(0).setVisible(false);
+        slidesTableView.getColumns().get(0).setVisible(true);      
         stepLabel.setText("Step 3: Unzip Student Submissions");
         stepDescLabel.setText("Select student submissions and click Unzip.");
         progressLabel.setText("Unzip Progress");
@@ -344,6 +366,10 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
        nextButton.setOnAction(e->{
            currentStep = controller.handleNext(currentStep);
        });
+       
+       refreshButton.setOnAction(e->{
+           controller.handleRefreshButton(currentStep);
+       });
 
     }
     
@@ -382,13 +408,20 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
 
     @Override
     public void resetWorkspace() {
+        slidesTableView.getItems().removeAll();
+        slidesTableView.getItems().clear();              
         currentStep = 1;
+        setStep2();
         setStep1();
     }
     
     @Override
     public void reloadWorkspace(AppDataComponent dataComponent) {
-
+        slidesTableView.getItems().removeAll();
+        slidesTableView.getItems().clear();           
+        currentStep = 1;        
+        setStep2();
+        setStep1();
     }
 
 }
