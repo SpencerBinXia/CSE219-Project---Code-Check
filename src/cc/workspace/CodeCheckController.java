@@ -1,22 +1,20 @@
 package cc.workspace;
 
-import djf.ui.AppMessageDialogSingleton;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javafx.scene.image.Image;
-import javafx.stage.DirectoryChooser;
-import properties_manager.PropertiesManager;
 import cc.CodeCheckApp;
-import static cc.CodeCheckProp.APP_PATH_WORK;
-import static cc.CodeCheckProp.APP_PATH_SUB;
-import static cc.CodeCheckProp.INVALID_IMAGE_PATH_MESSAGE;
-import static cc.CodeCheckProp.INVALID_IMAGE_PATH_TITLE;
 import cc.data.CodeCheckData;
+import cc.data.FileWrapper;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.TextInputDialog;
+import java.util.zip.ZipFile;
+import javafx.scene.control.Alert;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -104,6 +102,49 @@ public class CodeCheckController {
         }
         else{
             handlePrev(step+1);
+        }
+    }
+    
+    public void handleRemoveButton(int step){
+        CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
+        int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();        
+        
+        // WE ONLY RESPOND IF IT'S A SELECTION
+        if (selectedIndex >= 0) {
+             Alert alert = new Alert(Alert.AlertType.WARNING, "Are you positive you want to remove this item?", ButtonType.YES, ButtonType.NO);
+             alert.showAndWait();
+             if (alert.getResult() == ButtonType.NO){
+                 alert.close();
+             }
+             else if (alert.getResult() == ButtonType.YES){
+                 CodeCheckData data = (CodeCheckData)app.getDataComponent();
+                 File f = selectedFile.getFile();
+                 f.delete();
+                 handleRefreshButton(step);
+             }
+        }        
+    }
+    
+    public void handleViewButton(){
+        CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
+        int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();
+        
+        // WE ONLY RESPOND IF IT'S A SELECTION
+        if (selectedIndex >= 0) {
+            // LOAD ALL THE SLIDE DATA INTO THE CONTROLS
+            try{
+            ZipFile zipReader = new ZipFile(selectedFile.getFile());
+             while(zipReader.entries().hasMoreElements()){
+            ZipEntry entry = zipReader.entries().nextElement();
+            InputStream stream = zipReader.getInputStream(entry);
+            String result = new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n"));
+            System.out.println(result);
+            }
+            }
+            catch(IOException e){
+            }
         }
     }
     

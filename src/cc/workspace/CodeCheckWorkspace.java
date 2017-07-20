@@ -370,7 +370,20 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
        refreshButton.setOnAction(e->{
            controller.handleRefreshButton(currentStep);
        });
-
+       
+       viewButton.setOnAction(e->{
+            slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{
+            controller.handleViewButton();
+        });
+       });
+            slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{  
+                viewButton.setOnAction(v->{
+                   controller.handleViewButton(); 
+                });
+                removeButton.setOnAction(r->{
+                    controller.handleRemoveButton(currentStep);
+                });
+            });       
     }
     
     
