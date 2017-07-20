@@ -5,6 +5,8 @@ import cc.data.CodeCheckData;
 import cc.data.FileWrapper;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +16,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import javafx.scene.control.Alert;
 
 /**
@@ -145,6 +148,43 @@ public class CodeCheckController {
             }
             catch(IOException e){
             }
+        }
+    }
+    
+    public void handleExtractBlackboard() {
+        CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
+        int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();
+        
+        if (selectedIndex >= 0){
+        try
+        {
+        File f = selectedFile.getFile();
+        FileInputStream fInput = new FileInputStream("assignment/blackboard/" + f.getName());
+        ZipInputStream zis = new ZipInputStream(fInput);
+        ZipEntry ze = zis.getNextEntry();
+        byte[] buffer = new byte[2048];
+        while (ze != null){
+            String filename = ze.getName();
+            File newFile = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + filename);
+            System.out.println("work/" + app.getGUI().getTitle() + "/Submissions/" + filename);
+            FileOutputStream fos = new FileOutputStream(newFile);
+            int len;
+            while ((len = zis.read(buffer)) > 0){
+                fos.write(buffer, 0, len);
+            }
+            fos.close();
+            zis.closeEntry();
+            ze = zis.getNextEntry();
+        }
+        zis.closeEntry();
+        zis.close();
+        fInput.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         }
     }
     

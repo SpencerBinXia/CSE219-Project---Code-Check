@@ -342,48 +342,44 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     private void initControllers() {
         // NOW LET'S SETUP THE EVENT HANDLING
         controller = new CodeCheckController(app);
-
-       /** addAllImagesInDirectoryButton.setOnAction(e->{
-            controller.handleAddAllImagesInDirectory();
-        });**/
-       
-       renameButton.setOnAction(e->{
-           controller.handleRenameButton();
-       });
-       
-       aboutButton.setOnAction(e->{
-           controller.handleAboutButton();
-       });
-       
-       homeButton.setOnAction(e->{
-           currentStep = controller.handleHome(currentStep);
-       });
-       
-       prevButton.setOnAction(e->{
-           currentStep = controller.handlePrev(currentStep);
-       });
-       
-       nextButton.setOnAction(e->{
-           currentStep = controller.handleNext(currentStep);
-       });
-       
-       refreshButton.setOnAction(e->{
-           controller.handleRefreshButton(currentStep);
-       });
-       
-       viewButton.setOnAction(e->{
-            slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{
-            controller.handleViewButton();
+        renameButton.setOnAction(e->{
+            controller.handleRenameButton();
         });
-       });
-            slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{  
-                viewButton.setOnAction(v->{
-                   controller.handleViewButton(); 
-                });
-                removeButton.setOnAction(r->{
-                    controller.handleRemoveButton(currentStep);
-                });
-            });       
+       
+        aboutButton.setOnAction(e->{
+            controller.handleAboutButton();
+        });
+       
+        homeButton.setOnAction(e->{
+            currentStep = controller.handleHome(currentStep);
+        });
+       
+        prevButton.setOnAction(e->{
+            currentStep = controller.handlePrev(currentStep);
+        });
+       
+        nextButton.setOnAction(e->{
+            currentStep = controller.handleNext(currentStep);
+        });
+       
+        refreshButton.setOnAction(e->{
+            controller.handleRefreshButton(currentStep);
+        });
+       
+        slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{  
+            viewButton.setOnAction(v->{
+               controller.handleViewButton(); 
+            });
+            removeButton.setOnAction(r->{
+                controller.handleRemoveButton(currentStep);
+            });
+            actionButton1.setOnAction(e->{
+            if (currentStep == 1){
+                System.out.println("POP");
+                controller.handleExtractBlackboard();
+            }
+        });
+        });        
     }
     
     
