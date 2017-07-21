@@ -19,6 +19,8 @@ import javafx.scene.control.Dialog;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -250,6 +252,70 @@ public class CodeCheckController {
             e.printStackTrace();
         }
         }        
+    }
+
+    public void handleExtractCode(CheckBox java, CheckBox js, CheckBox cpp, CheckBox cs, CheckBox other, String otherType){
+         CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
+        int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();
+        
+
+        if (selectedIndex >= 0){
+        try
+        {
+        File f = selectedFile.getFile();
+        int periodIndex = f.getName().indexOf('.');
+        String dirName = f.getName().substring(0, periodIndex);
+        File studentDir = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName);
+        studentDir.mkdir();
+        ZipFile zipFile = new ZipFile("work/" + app.getGUI().getTitle() + "/Submissions/" + f.getName());
+        Enumeration<?> enu = zipFile.entries();
+        byte[] buffer = new byte[2048];
+        while (enu.hasMoreElements()){
+            ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+            String filename = zipEntry.getName();
+            try
+            {
+            int extIndex = filename.indexOf('.');
+            String fileExt = filename.substring(extIndex);
+            if ((java.isSelected() && fileExt.equals(".java")) || (js.isSelected() && fileExt.equals(".js")) || (cpp.isSelected() && fileExt.equals(".cpp")) 
+                || (cpp.isSelected() && fileExt.equals(".h")) || (cpp.isSelected() && fileExt.equals(".c")) || (cs.isSelected() && fileExt.equals(".cs") 
+                || (other.isSelected() && fileExt.equals(otherType))))
+            {
+            File newFile = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName + "/" + filename);
+            if (filename.endsWith("/")){
+                newFile.mkdirs();
+                continue;
+            }
+            File parent = newFile.getParentFile();
+           if (parent != null) {
+                parent.mkdirs();
+            }
+            InputStream is = zipFile.getInputStream(zipEntry);
+            FileOutputStream fos = new FileOutputStream(newFile);
+            int len;
+
+            while ((len = is.read(buffer)) >= 0){
+                fos.write(buffer, 0, len);
+            }
+            is.close();
+            fos.close();
+            }
+            else
+            {             
+            }
+            }
+            catch (Exception e)
+            {              
+            }
+        }
+        zipFile.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        }          
     }
     
     /**

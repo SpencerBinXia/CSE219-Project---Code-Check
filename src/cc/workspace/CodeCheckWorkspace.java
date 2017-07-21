@@ -100,6 +100,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     CheckBox cs;
     CheckBox other;
     TextField otherField;
+    String otherType;
     
     /**
      * The constructor initializes the user interface for the
@@ -154,6 +155,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         cs = new CheckBox(".cs");
         other = new CheckBox();
         otherField = new TextField();
+        otherField.setText(otherType);
         slidesTableScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         outputBoxPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         
@@ -190,20 +192,6 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         checkmarks.add(cs, 1, 1);
         checkmarks.add(otherRow,0, 2);
         filePane.getChildren().addAll(stepLabel, stepDescLabel, slidesTableScrollPane, removeButton, refreshButton, viewButton, checkmarks);
-        /**
-        filePane.add(stepLabel, 0, 0);
-        filePane.add(stepDescLabel, 0, 1);
-        filePane.add(slidesTableScrollPane, 0, 2);
-        filePane.add(removeButton, 0, 3);
-        filePane.add(refreshButton, 1, 3);
-        filePane.add(viewButton, 2, 3);
-        filePane.add(java, 0, 4);
-        filePane.add(js, 1, 4);
-        filePane.add(cpp, 0, 5);
-        filePane.add(cs, 1, 5);
-        filePane.add(other, 0, 6);
-        filePane.add(otherField, 1, 6);
-        * **/
         outputBoxPane.setMinWidth(530);
         outputBoxPane.setMaxWidth(530);
         outputBoxPane.setMinHeight(350);
@@ -222,6 +210,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         actionButton2.setVisible(false);
         homeButton.setDisable(true);
         prevButton.setDisable(true);
+        java.setSelected(true);
         
         // AND THEN PUT EVERYTHING INSIDE THE WORKSPACE
         controlStepToolbar.setMinWidth(450);
@@ -367,7 +356,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         refreshButton.setOnAction(e->{
             controller.handleRefreshButton(currentStep);
         });
-       
+        
         slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{  
             viewButton.setOnAction(v->{
                controller.handleViewButton(); 
@@ -385,10 +374,12 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
             if (currentStep == 3){
                 controller.handleExtractSubmissions();
             }
+            if (currentStep == 4){
+                controller.handleExtractCode(java, js, cpp, cs, other, otherType);
+            }
         });
         });        
     }
-    
     
     // WE'LL PROVIDE AN ACCESSOR METHOD FOR EACH VISIBLE COMPONENT
     // IN CASE A CONTROLLER OR STYLE CLASS NEEDS TO CHANGE IT
@@ -439,5 +430,4 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         setStep2();
         setStep1();
     }
-
 }
