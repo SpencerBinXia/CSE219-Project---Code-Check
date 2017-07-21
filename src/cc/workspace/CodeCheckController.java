@@ -22,16 +22,14 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -137,7 +135,19 @@ public class CodeCheckController {
              else if (alert.getResult() == ButtonType.YES){
                  CodeCheckData data = (CodeCheckData)app.getDataComponent();
                  File f = selectedFile.getFile();
+                 if (f.isDirectory() == true){
+                     try
+                     {
+                     FileUtils.deleteDirectory(f);
+                     }
+                     catch (IOException e)
+                     {                  
+                     }
+                 }
+                 else
+                 {
                  f.delete();
+                 }
                  handleRefreshButton(step);
              }
         }        

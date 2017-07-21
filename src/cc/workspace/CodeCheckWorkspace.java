@@ -39,12 +39,14 @@ import static cc.CodeCheckProp.STEP_2_TEXT;
 import static cc.CodeCheckProp.STEP_2_DESC_TEXT;
 import static cc.style.CodeCheckStyle.CLASS_EDIT_TEXT_FIELD;
 import static cc.style.CodeCheckStyle.CLASS_DESC_LABEL;
-import java.io.File;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  * This class serves as the workspace component for the TA Manager
@@ -86,6 +88,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
 
     // THE EDIT PANE
     
+    TextFlow feedback;
+    String outputText;
+    StringProperty outputTextProperty;
     FlowPane outputPane;
     Label progressLabel;
     ProgressBar progress;
@@ -138,6 +143,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         slidesTableScrollPane = new ScrollPane();
         slidesTableView = new TableView();
         tableColumn = new TableColumn(props.getProperty(FILE_NAME_COLUMN_TEXT));
+        feedback = new TextFlow();
         outputPane = new FlowPane();
         filePane = new FlowPane();
         stepLabel = new Label(props.getProperty(FILE_NAME_PROMPT_TEXT));
@@ -147,7 +153,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         viewButton = new Button(props.getProperty(ORIGINAL_HEIGHT_PROMPT_TEXT));
         progressLabel = new Label(props.getProperty(CURRENT_WIDTH_PROMPT_TEXT));
         progress = new ProgressBar();
-        outputBoxPane = new ScrollPane();
+        outputBoxPane = new ScrollPane(feedback);
         actionButton1 = new Button(props.getProperty(CURRENT_HEIGHT_PROMPT_TEXT));
         actionButton2 = new Button(props.getProperty(UPDATE_BUTTON_TEXT));
         java = new CheckBox(".java");
@@ -197,7 +203,10 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         outputBoxPane.setMaxWidth(530);
         outputBoxPane.setMinHeight(350);
         outputBoxPane.setMaxHeight(350);
-        
+        feedback.setMinWidth(530);
+        feedback.setMaxWidth(530);
+        feedback.setMinHeight(350);
+        feedback.setMaxHeight(350);
         outputPane.setHgap(100);
         outputPane.getChildren().addAll(progressLabel, progress, actionButton1, actionButton2, outputBoxPane);
         
@@ -225,7 +234,6 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         outputBoxPane.setFitToWidth(true);
         outputBoxPane.setFitToHeight(true);
         workspaceBorderPane.setCenter(outputPane);
-        
         // AND SET THIS AS THE WORKSPACE PANE
         workspace = workspaceBorderPane;
         
@@ -398,7 +406,13 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
                 controller.handleExtractCode(java, js, cpp, cs, other, otherType);
             }
             if (currentStep == 5){
-                controller.handleCodeCheck();
+                       Hyperlink link = new Hyperlink();
+                         link.setText("https://phpcodechecker.com/");
+                        Text plagiarism = new Text("Code Check complete. Student Plagiarism Check Results can be found at:");
+                        feedback.getChildren().addAll(plagiarism, link);
+                         link.setOnAction(l->{
+                            controller.handleResultsButton();
+                        });
             }
         });
         });        
