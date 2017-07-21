@@ -39,9 +39,11 @@ import static cc.CodeCheckProp.STEP_2_TEXT;
 import static cc.CodeCheckProp.STEP_2_DESC_TEXT;
 import static cc.style.CodeCheckStyle.CLASS_EDIT_TEXT_FIELD;
 import static cc.style.CodeCheckStyle.CLASS_DESC_LABEL;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
@@ -94,6 +96,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     FlowPane outputPane;
     Label progressLabel;
     ProgressBar progress;
+    ProgressIndicator indicator;
     ScrollPane outputBoxPane;   
     Button actionButton1;
     Button actionButton2;
@@ -153,6 +156,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         viewButton = new Button(props.getProperty(ORIGINAL_HEIGHT_PROMPT_TEXT));
         progressLabel = new Label(props.getProperty(CURRENT_WIDTH_PROMPT_TEXT));
         progress = new ProgressBar();
+        indicator = new ProgressIndicator(0);
         outputBoxPane = new ScrollPane(feedback);
         actionButton1 = new Button(props.getProperty(CURRENT_HEIGHT_PROMPT_TEXT));
         actionButton2 = new Button(props.getProperty(UPDATE_BUTTON_TEXT));
@@ -218,7 +222,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         other.setVisible(false);
         otherField.setVisible(false);
         actionButton2.setVisible(false);
-        //actionButton2.setDisable(true);
+        actionButton2.setDisable(true);
         homeButton.setDisable(true);
         prevButton.setDisable(true);
         java.setSelected(true);
@@ -256,6 +260,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         homeButton.setDisable(true);
         prevButton.setDisable(true);
         nextButton.setDisable(false);
+        removeButton.setDisable(true);
+        viewButton.setDisable(true);
+        actionButton1.setDisable(true);
         java.setVisible(false);
         js.setVisible(false);
         cpp.setVisible(false);
@@ -281,6 +288,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         actionButton1.setText("Rename");
         homeButton.setDisable(false);
         prevButton.setDisable(false);
+        removeButton.setDisable(true);
+        viewButton.setDisable(true);
+        actionButton1.setDisable(true);
         actionButton2.setVisible(false);        
     }
     
@@ -297,6 +307,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         progressLabel.setText("Unzip Progress");
         tableColumn.setText("Student ZIP FIles");
         actionButton1.setText("Unzip");
+        removeButton.setDisable(true);
+        viewButton.setDisable(true);
+        actionButton1.setDisable(true);
         java.setVisible(false);
         js.setVisible(false);
         cpp.setVisible(false);
@@ -321,6 +334,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         actionButton2.setText("");
         tableColumn.setText("Student Work Directories");
         nextButton.setDisable(false);
+        removeButton.setDisable(true);
+        viewButton.setDisable(true);
+        actionButton1.setDisable(true);
         java.setVisible(true);
         js.setVisible(true);
         cpp.setVisible(true);
@@ -344,6 +360,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         actionButton1.setText("Code Check");
         actionButton2.setText("View Results");
         tableColumn.setText("Student Work");
+        removeButton.setDisable(true);
+        viewButton.setDisable(true);
+        actionButton1.setDisable(true);
         nextButton.setDisable(true);
         java.setVisible(false);
         js.setVisible(false);
@@ -352,6 +371,20 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         other.setVisible(false);
         otherField.setVisible(false);
         actionButton2.setVisible(true);
+    }
+    
+    public void updateButtons()
+    {
+        removeButton.setDisable(false);
+        viewButton.setDisable(false);
+        actionButton1.setDisable(false);
+    }
+    
+    public void deselectButtons()
+    {
+        removeButton.setDisable(true);
+        viewButton.setDisable(true);
+        actionButton1.setDisable(true);
     }
     
     private void initControllers() {
@@ -379,6 +412,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
        
         refreshButton.setOnAction(e->{
             controller.handleRefreshButton(currentStep);
+            deselectButtons();
         });
         
         actionButton2.setOnAction(e->{
@@ -386,6 +420,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         });
         
         slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{  
+            updateButtons();
             viewButton.setOnAction(v->{
                controller.handleViewButton(); 
             });
@@ -409,6 +444,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
                        Hyperlink link = new Hyperlink();
                          link.setText("https://phpcodechecker.com/");
                         Text plagiarism = new Text("Code Check complete. Student Plagiarism Check Results can be found at:");
+                        handleCodeCheck();
                         feedback.getChildren().addAll(plagiarism, link);
                          link.setOnAction(l->{
                             controller.handleResultsButton();
@@ -467,4 +503,20 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         setStep2();
         setStep1();
     }
+    
+    public void handleCodeCheck(){
+                            double max = 200;
+                           double perc;
+                        for (int i = 0; i < 200; i++) {
+                            System.out.println(i);
+                            perc = i/max;
+                                  
+                            progress.setProgress(perc);
+                            indicator.setProgress(perc);
+                                }
+                            }
+
+
 }
+
+

@@ -70,6 +70,7 @@ public class CodeCheckData implements AppDataComponent {
         blackboard.clear();
         submissions.clear();
         projects.clear();
+        code.clear();
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         File blackDir = new File(props.getProperty(APP_PATH_WORK));
         File[] listOfBlack = blackDir.listFiles();

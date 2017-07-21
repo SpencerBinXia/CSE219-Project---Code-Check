@@ -3,15 +3,14 @@ package cc.workspace;
 import cc.CodeCheckApp;
 import cc.data.CodeCheckData;
 import cc.data.FileWrapper;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -26,10 +25,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -115,6 +116,9 @@ public class CodeCheckController {
         if (step == 1){
             handleHome(1);
         }
+        else if (step == 5){
+            handleNext(step-1);
+        }
         else{
             handlePrev(step+1);
         }
@@ -149,6 +153,7 @@ public class CodeCheckController {
                  f.delete();
                  }
                  handleRefreshButton(step);
+                 workspace.deselectButtons();
              }
         }        
     }
@@ -157,23 +162,68 @@ public class CodeCheckController {
         CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
         FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
         int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();
+        VBox viewBox = new VBox(6);
         
-        // WE ONLY RESPOND IF IT'S A SELECTION
         if (selectedIndex >= 0) {
-            // LOAD ALL THE SLIDE DATA INTO THE CONTROLS
-            try{
-            ZipFile zipReader = new ZipFile(selectedFile.getFile());
-             while(zipReader.entries().hasMoreElements()){
-            ZipEntry entry = zipReader.entries().nextElement();
-            InputStream stream = zipReader.getInputStream(entry);
-            String result = new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n"));
-            System.out.println(result);
+            String result = "";
+            File f = selectedFile.getFile();
+            if (f.isDirectory())
+            {
+                Collection<File> viewDir = FileUtils.listFiles(f, TrueFileFilter.TRUE,TrueFileFilter.INSTANCE);
+                for (File innerFile : viewDir){
+                    viewBox.getChildren().add(new Text(innerFile.getPath()));
+                }
             }
-            }
-            catch(IOException e){
-            }
+            else
+            { 
+                try
+                {
+                ZipFile zipFile = new ZipFile(f);
+                Enumeration<? extends ZipEntry> entries = zipFile.entries();
+                while (entries.hasMoreElements()){
+                    ZipEntry entry = entries.nextElement();
+                    String zipName = entry.getName();
+                    viewBox.getChildren().add(new Text(zipName));
+                    //System.out.println(zipName);
+                }
+                zipFile.close();                    
+                }
+                 catch (IOException e)
+                {
+                    
+                }
+                }
+
         }
-    }
+        
+        Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+         //Update your GUI here
+        viewBox.setAlignment(Pos.CENTER_LEFT);
+        
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(viewBox);
+        scrollPane.getStyleClass().add("noborder-scroll-pane");
+        scrollPane.setStyle("-fx-background-color: white");
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+        viewBox.setStyle("-fx-background-color: white");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        //scrollPane.setMinHeight(450);
+       // scrollPane.setMaxHeight(450);
+        //scrollPane.setMinWidth(300);
+       // scrollPane.setMaxWidth(300);  
+
+        Scene scene = new Scene(scrollPane);
+         Stage primaryStage = new Stage();
+         primaryStage.setScene(scene);
+         primaryStage.setTitle("View ZIP File Contents");
+         primaryStage.show();
+         }
+         });
+        
+            }
     
     public void handleExtractBlackboard() {
         CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
@@ -190,8 +240,9 @@ public class CodeCheckController {
         byte[] buffer = new byte[2048];
         while (ze != null){
             String filename = ze.getName();
+            int extIndex = filename.indexOf('.');
+            String fileExt = filename.substring(0, extIndex);
             File newFile = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + filename);
-            System.out.println("work/" + app.getGUI().getTitle() + "/Submissions/" + filename);
             FileOutputStream fos = new FileOutputStream(newFile);
             int len;
             while ((len = zis.read(buffer)) > 0){
