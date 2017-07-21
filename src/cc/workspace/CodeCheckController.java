@@ -18,9 +18,20 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -219,7 +230,7 @@ public class CodeCheckController {
         File f = selectedFile.getFile();
         int periodIndex = f.getName().indexOf('.');
         String dirName = f.getName().substring(0, periodIndex);
-        File studentDir = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName);
+        File studentDir = new File("work/" + app.getGUI().getTitle() + "/Projects/" + dirName);
         studentDir.mkdir();
         ZipFile zipFile = new ZipFile("work/" + app.getGUI().getTitle() + "/Submissions/" + f.getName());
         Enumeration<?> enu = zipFile.entries();
@@ -227,7 +238,7 @@ public class CodeCheckController {
         while (enu.hasMoreElements()){
             ZipEntry zipEntry = (ZipEntry) enu.nextElement();
             String filename = zipEntry.getName();
-            File newFile = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName + "/" + filename);
+            File newFile = new File("work/" + app.getGUI().getTitle() + "/Projects/" + dirName + "/" + filename);
             if (filename.endsWith("/")){
                 newFile.mkdirs();
                 continue;
@@ -254,7 +265,69 @@ public class CodeCheckController {
         }        
     }
 
-    public void handleExtractCode(CheckBox java, CheckBox js, CheckBox cpp, CheckBox cs, CheckBox other, String otherType){
+  /**  public void handleExtractCode(CheckBox java, CheckBox js, CheckBox cpp, CheckBox cs, CheckBox other, String otherType){
+        CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
+        FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
+        int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();      
+        
+        if (selectedIndex >= 0){
+        File f = selectedFile.getFile();
+        File studentDir = new File("work/" + app.getGUI().getTitle() + "/Code/" + f.getName());
+        studentDir.mkdir();        
+        File[] files = new File("work/" + app.getGUI().getTitle() + "/Projects/" + f.getName()).listFiles();
+        ArrayList<File> fileList = showFiles(files);  
+        for (int i = 0;i < fileList.size();i++)
+        {
+            String filename = fileList.get(i).getName();
+            int extIndex = filename.indexOf('.');
+            String fileExt = filename.substring(extIndex);
+            System.out.println("EXTENSION" + fileExt);
+            if ((java.isSelected() && fileExt.equals(".java")) || (js.isSelected() && fileExt.equals(".js")) || (cpp.isSelected() && fileExt.equals(".cpp")) 
+                || (cpp.isSelected() && fileExt.equals(".h")) || (cpp.isSelected() && fileExt.equals(".c")) || (cs.isSelected() && fileExt.equals(".cs") 
+                || (other.isSelected() && fileExt.equals(otherType))))
+            {
+                System.out.println(fileList.get(i).getName());
+                File source = fileList.get(i);
+                File dest = new File("work/" + app.getGUI().getTitle() + "/Code/" + f.getName() + "/" + filename);
+                try
+                {
+                 InputStream inStream = null;
+                 OutputStream outStream = null;
+                        inStream = new FileInputStream(source);
+                        outStream = new FileOutputStream(dest);
+                        byte[] buffer = new byte[1024];
+                        int fileLength;
+                        while ((fileLength = inStream.read(buffer)) > 0){                           
+                        outStream.write(buffer, 0, fileLength );
+                        }
+                        inStream.close();
+                        outStream.close();
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }        
+    }
+    }
+    
+    private ArrayList<File> showFiles(File[] files) {
+    ArrayList<File> fileList = new ArrayList<File>();
+    for (File file : files) {
+        if (file.isDirectory()) 
+        {
+            showFiles(file.listFiles()); // Calls same method again.
+        } 
+        else 
+        {
+            System.out.println(file);
+           fileList.add(file);
+        }
+    }
+    return fileList;
+    }**/
+    
+   public void handleExtractCode(CheckBox java, CheckBox js, CheckBox cpp, CheckBox cs, CheckBox other, String otherType){
          CodeCheckWorkspace workspace = (CodeCheckWorkspace)app.getWorkspaceComponent();
         FileWrapper selectedFile = workspace.slidesTableView.getSelectionModel().getSelectedItem();
         int selectedIndex = workspace.slidesTableView.getSelectionModel().getSelectedIndex();
@@ -264,11 +337,9 @@ public class CodeCheckController {
         try
         {
         File f = selectedFile.getFile();
-        int periodIndex = f.getName().indexOf('.');
-        String dirName = f.getName().substring(0, periodIndex);
-        File studentDir = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName);
+        File studentDir = new File("work/" + app.getGUI().getTitle() + "/Code/" + f.getName());
         studentDir.mkdir();
-        ZipFile zipFile = new ZipFile("work/" + app.getGUI().getTitle() + "/Submissions/" + f.getName());
+        ZipFile zipFile = new ZipFile("work/" + app.getGUI().getTitle() + "/Submissions/" + f.getName() + ".zip");
         Enumeration<?> enu = zipFile.entries();
         byte[] buffer = new byte[2048];
         while (enu.hasMoreElements()){
@@ -282,7 +353,7 @@ public class CodeCheckController {
                 || (cpp.isSelected() && fileExt.equals(".h")) || (cpp.isSelected() && fileExt.equals(".c")) || (cs.isSelected() && fileExt.equals(".cs") 
                 || (other.isSelected() && fileExt.equals(otherType))))
             {
-            File newFile = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + dirName + "/" + filename);
+            File newFile = new File("work/" + app.getGUI().getTitle() + "/Code/" + f.getName() + "/" + filename);
             if (filename.endsWith("/")){
                 newFile.mkdirs();
                 continue;
@@ -318,48 +389,42 @@ public class CodeCheckController {
         }          
     }
     
-    /**
-    // CONTROLLER METHOD THAT HANDLES ADDING A DIRECTORY OF IMAGES
-    public void handleAddAllImagesInDirectory() {
-        try {
-            // ASK THE USER TO SELECT A DIRECTORY
-            DirectoryChooser dirChooser = new DirectoryChooser();
-            PropertiesManager props = PropertiesManager.getPropertiesManager();
-            dirChooser.setInitialDirectory(new File(props.getProperty(APP_PATH_WORK)));
-            File dir = dirChooser.showDialog(app.getGUI().getWindow());
-            if (dir != null) {
-                File[] files = dir.listFiles();
-                for (File f : files) {
-                    String fileName = f.getName();
-                    if (fileName.toLowerCase().endsWith(".png") ||
-                            fileName.toLowerCase().endsWith(".jpg") ||
-                            fileName.toLowerCase().endsWith(".gif")) {
-                        String path = f.getPath();
-                        String caption = "";
-                        Image slideShowImage = loadImage(path);
-                        int originalWidth = (int)slideShowImage.getWidth();
-                        int originalHeight = (int)slideShowImage.getHeight();
-                        CodeCheckData data = (CodeCheckData)app.getDataComponent();
-                        data.addSlide(fileName, path, caption, originalWidth, originalHeight);
-                    }
-                }
-            }
-        }
-        catch(MalformedURLException murle) {
-            PropertiesManager props = PropertiesManager.getPropertiesManager();
-            String title = props.getProperty(INVALID_IMAGE_PATH_TITLE);
-            String message = props.getProperty(INVALID_IMAGE_PATH_MESSAGE);
-            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
-            dialog.show(title, message);
-        }
+   public void handleCodeCheck(){
+   }
+   
+    public void handleResultsButton(){
+        WebView browser = new WebView();
+        WebEngine webEngine = browser.getEngine();
+        webEngine.load("https://phpcodechecker.com/");
+       
+        Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+         //Update your GUI here
+        VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER_LEFT);
+
+        HBox hbox = new HBox(10);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+	
+        vbox.getChildren().add(hbox);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(browser);
+        scrollPane.getStyleClass().add("noborder-scroll-pane");
+        scrollPane.setStyle("-fx-background-color: white");
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        vbox.getChildren().add(browser);   
+
+
+        Scene scene = new Scene(vbox);
+         Stage primaryStage = new Stage();
+         primaryStage.setScene(scene);
+         primaryStage.setTitle("Code Check Results");
+         primaryStage.show();
+         }
+         });
     }
-    
-    // THIS HELPER METHOD LOADS AN IMAGE SO WE CAN SEE IT'S SIZE
-    private Image loadImage(String imagePath) throws MalformedURLException {
-	File file = new File(imagePath);
-	URL fileURL = file.toURI().toURL();
-	Image image = new Image(fileURL.toExternalForm());
-	return image;
+
     }
-    * **/
-}

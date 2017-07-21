@@ -85,6 +85,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     TableColumn<FileWrapper, StringProperty> tableColumn;
 
     // THE EDIT PANE
+    
     FlowPane outputPane;
     Label progressLabel;
     ProgressBar progress;
@@ -208,6 +209,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         other.setVisible(false);
         otherField.setVisible(false);
         actionButton2.setVisible(false);
+        //actionButton2.setDisable(true);
         homeButton.setDisable(true);
         prevButton.setDisable(true);
         java.setSelected(true);
@@ -297,6 +299,13 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     }
     
     public void setStep4(){
+        CodeCheckData data = (CodeCheckData)app.getDataComponent();  
+        ObservableList<FileWrapper> model = data.getProjects();
+        data.resetData();
+        slidesTableView.getItems().clear();      
+        slidesTableView.getItems().addAll(model);
+        slidesTableView.getColumns().get(0).setVisible(false);
+        slidesTableView.getColumns().get(0).setVisible(true);  
         stepLabel.setText("Step 4: Extract Source Code");
         stepDescLabel.setText("Select students and click Extract Code.");
         progressLabel.setText("Code Progress");
@@ -314,6 +323,13 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
     }
     
     public void setStep5(){
+        CodeCheckData data = (CodeCheckData)app.getDataComponent();  
+        ObservableList<FileWrapper> model = data.getCode();
+        data.resetData();
+        slidesTableView.getItems().clear();      
+        slidesTableView.getItems().addAll(model);
+        slidesTableView.getColumns().get(0).setVisible(false);
+        slidesTableView.getColumns().get(0).setVisible(true);          
         stepLabel.setText("Step 5: Code Check");
         stepDescLabel.setText("Select students and click Code Check.");
         progressLabel.setText("Check Progress");
@@ -357,6 +373,10 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
             controller.handleRefreshButton(currentStep);
         });
         
+        actionButton2.setOnAction(e->{
+            controller.handleResultsButton();
+        });
+        
         slidesTableView.getSelectionModel().selectedItemProperty().addListener(x->{  
             viewButton.setOnAction(v->{
                controller.handleViewButton(); 
@@ -376,6 +396,9 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
             }
             if (currentStep == 4){
                 controller.handleExtractCode(java, js, cpp, cs, other, otherType);
+            }
+            if (currentStep == 5){
+                controller.handleCodeCheck();
             }
         });
         });        

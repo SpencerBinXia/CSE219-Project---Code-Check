@@ -26,8 +26,8 @@ public class CodeCheckData implements AppDataComponent {
     // DATA IN THE ROWS OF THE TABLE VIEW
     ObservableList<FileWrapper> blackboard;
     ObservableList<FileWrapper> submissions;
-    FileWrapper[] rawBlack;
-    FileWrapper[] rawSub;
+    ObservableList<FileWrapper> projects;
+    ObservableList<FileWrapper> code;
 
     /**
      * This constructor will setup the required data structures for use.
@@ -41,6 +41,8 @@ public class CodeCheckData implements AppDataComponent {
         // MAKE THE SLIDES MODEL
         blackboard = FXCollections.observableArrayList();
         submissions = FXCollections.observableArrayList();
+        projects = FXCollections.observableArrayList();
+        code = FXCollections.observableArrayList();
     }
     
     // ACCESSOR METHOD
@@ -51,6 +53,14 @@ public class CodeCheckData implements AppDataComponent {
     public ObservableList<FileWrapper> getSubmissions() {
         return submissions;
     }
+    
+    public ObservableList<FileWrapper> getProjects() {
+        return projects;
+    }    
+    
+    public ObservableList<FileWrapper> getCode(){
+        return code;
+    }
     /**
      * Called each time new work is created or loaded, it resets all data
      * and data structures such that they can be used for new values.
@@ -59,6 +69,7 @@ public class CodeCheckData implements AppDataComponent {
     public void resetData() {
         blackboard.clear();
         submissions.clear();
+        projects.clear();
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         File blackDir = new File(props.getProperty(APP_PATH_WORK));
         File[] listOfBlack = blackDir.listFiles();
@@ -80,6 +91,26 @@ public class CodeCheckData implements AppDataComponent {
             submissions.add(newFile);
         }
         }
+        
+        File projDir = new File("work/" + app.getGUI().getTitle() + "/Projects/");
+        File[] listOfProj = projDir.listFiles();
+        
+        for (int i = 0; i < listOfProj.length; i++) {
+        if (listOfProj[i].isDirectory()) {
+            FileWrapper newFile = new FileWrapper(listOfProj[i], listOfProj[i].getName(), listOfProj[i].getPath());
+            projects.add(newFile);
+        }
+        }
+        
+        File codeDir = new File("work/" + app.getGUI().getTitle() + "/Code/");
+        File[] listOfCode = codeDir.listFiles(); 
+        
+        for (int i = 0; i < listOfCode.length; i++) {
+        if (listOfCode[i].isDirectory()) {
+            FileWrapper newFile = new FileWrapper(listOfCode[i], listOfCode[i].getName(), listOfCode[i].getPath());
+            code.add(newFile);
+        }
+        }       
         }
     }
 
