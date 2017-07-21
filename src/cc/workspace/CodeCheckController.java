@@ -31,6 +31,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import static cc.workspace.CodeCheckWorkspace.feedback;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -99,6 +100,7 @@ public class CodeCheckController {
     
     public void handleRenameButton(){
         app.getGUI().renameTitle();
+        feedback.getChildren().add(new Text("Project renamed to " + app.getGUI().getTitle() + "."));
     }
     
     public void handleAboutButton(){
@@ -139,12 +141,13 @@ public class CodeCheckController {
              else if (alert.getResult() == ButtonType.YES){
                  CodeCheckData data = (CodeCheckData)app.getDataComponent();
                  File f = selectedFile.getFile();
+                 feedback.getChildren().add(new Text(f.getName() + " removed."));
                  if (f.isDirectory() == true){
                      try
                      {
                      FileUtils.deleteDirectory(f);
                      }
-                     catch (IOException e)
+                     catch (Exception e)
                      {                  
                      }
                  }
@@ -167,6 +170,7 @@ public class CodeCheckController {
         if (selectedIndex >= 0) {
             String result = "";
             File f = selectedFile.getFile();
+            feedback.getChildren().add(new Text("Viewing inner files and directories of " + f.getName() + "."));
             if (f.isDirectory())
             {
                 Collection<File> viewDir = FileUtils.listFiles(f, TrueFileFilter.TRUE,TrueFileFilter.INSTANCE);
@@ -188,9 +192,9 @@ public class CodeCheckController {
                 }
                 zipFile.close();                    
                 }
-                 catch (IOException e)
+                 catch (Exception e)
                 {
-                    
+                    feedback.getChildren().add(new Text("Unsuccessful view attempt processed."));
                 }
                 }
 
@@ -240,8 +244,7 @@ public class CodeCheckController {
         byte[] buffer = new byte[2048];
         while (ze != null){
             String filename = ze.getName();
-            int extIndex = filename.indexOf('.');
-            String fileExt = filename.substring(0, extIndex);
+            feedback.getChildren().add(new Text(filename + " extracted to Submissions."));
             File newFile = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + filename);
             FileOutputStream fos = new FileOutputStream(newFile);
             int len;
@@ -256,9 +259,9 @@ public class CodeCheckController {
         zis.close();
         fInput.close();
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            e.printStackTrace();
+            feedback.getChildren().add(new Text("Unsuccessful extraction attempt processed."));
         }
         }
     }
@@ -274,6 +277,7 @@ public class CodeCheckController {
         int periodIndex = subName.indexOf('.');
         String deleteString = subName.substring(underscoreIndex, periodIndex);
         String realname = subName.replace(deleteString, "");
+        feedback.getChildren().add(new Text(name + " renamed to " + realname + "."));
         File newf = new File("work/" + app.getGUI().getTitle() + "/Submissions/" + realname);
         f.renameTo(newf);
         }
@@ -299,6 +303,7 @@ public class CodeCheckController {
         while (enu.hasMoreElements()){
             ZipEntry zipEntry = (ZipEntry) enu.nextElement();
             String filename = zipEntry.getName();
+            feedback.getChildren().add(new Text(filename + " extracted to" + dirName + "in Projects."));
             File newFile = new File("work/" + app.getGUI().getTitle() + "/Projects/" + dirName + "/" + filename);
             if (filename.endsWith("/")){
                 newFile.mkdirs();
@@ -319,9 +324,9 @@ public class CodeCheckController {
         }
         zipFile.close();
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            e.printStackTrace();
+            feedback.getChildren().add(new Text("Unsuccessful extraction attempt processed."));
         }
         }        
     }
@@ -415,6 +420,7 @@ public class CodeCheckController {
                 || (other.isSelected() && fileExt.equals(otherType))))
             {
             File newFile = new File("work/" + app.getGUI().getTitle() + "/Code/" + f.getName() + "/" + filename);
+            feedback.getChildren().add(new Text(filename + " extracted to " + f.getName() + "in Code."));
             if (filename.endsWith("/")){
                 newFile.mkdirs();
                 continue;
@@ -438,7 +444,7 @@ public class CodeCheckController {
             }
             }
             catch (Exception e)
-            {              
+            {             
             }
         }
         zipFile.close();

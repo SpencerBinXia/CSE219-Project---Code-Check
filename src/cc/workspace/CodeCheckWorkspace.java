@@ -90,7 +90,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
 
     // THE EDIT PANE
     
-    TextFlow feedback;
+    static TextFlow feedback;
     String outputText;
     StringProperty outputTextProperty;
     FlowPane outputPane;
@@ -211,6 +211,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         feedback.setMaxWidth(530);
         feedback.setMinHeight(350);
         feedback.setMaxHeight(350);
+        feedback.setLineSpacing(5);
         outputPane.setHgap(100);
         outputPane.getChildren().addAll(progressLabel, progress, actionButton1, actionButton2, outputBoxPane);
         
@@ -236,7 +237,8 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         slidesTableScrollPane.setFitToWidth(true);
         slidesTableScrollPane.setFitToHeight(true);
         outputBoxPane.setFitToWidth(true);
-        outputBoxPane.setFitToHeight(true);
+        //outputBoxPane.setFitToHeight(true);
+        outputBoxPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         workspaceBorderPane.setCenter(outputPane);
         // AND SET THIS AS THE WORKSPACE PANE
         workspace = workspaceBorderPane;
@@ -257,6 +259,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         progressLabel.setText(props.getProperty(CURRENT_WIDTH_PROMPT_TEXT));
         actionButton1.setText(props.getProperty(CURRENT_HEIGHT_PROMPT_TEXT));
         tableColumn.setText(props.getProperty(FILE_NAME_COLUMN_TEXT));
+        feedback.getChildren().clear();
         homeButton.setDisable(true);
         prevButton.setDisable(true);
         nextButton.setDisable(false);
@@ -286,6 +289,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         tableColumn.setText("Student Submissions");
         progressLabel.setText("Rename Progress");
         actionButton1.setText("Rename");
+        feedback.getChildren().clear();
         homeButton.setDisable(false);
         prevButton.setDisable(false);
         removeButton.setDisable(true);
@@ -307,6 +311,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         progressLabel.setText("Unzip Progress");
         tableColumn.setText("Student ZIP FIles");
         actionButton1.setText("Unzip");
+        feedback.getChildren().clear();
         removeButton.setDisable(true);
         viewButton.setDisable(true);
         actionButton1.setDisable(true);
@@ -333,6 +338,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         actionButton1.setText("Extract Code");
         actionButton2.setText("");
         tableColumn.setText("Student Work Directories");
+        feedback.getChildren().clear();
         nextButton.setDisable(false);
         removeButton.setDisable(true);
         viewButton.setDisable(true);
@@ -360,6 +366,7 @@ public class CodeCheckWorkspace extends AppWorkspaceComponent {
         actionButton1.setText("Code Check");
         actionButton2.setText("View Results");
         tableColumn.setText("Student Work");
+        feedback.getChildren().clear();
         removeButton.setDisable(true);
         viewButton.setDisable(true);
         actionButton1.setDisable(true);
